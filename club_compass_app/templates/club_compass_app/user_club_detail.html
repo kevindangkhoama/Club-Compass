@@ -1,0 +1,113 @@
+{% load bootstrap5 %} {% load static %} {% bootstrap_css %} {%bootstrap_javascript %}
+
+<style>
+  .event-message-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .event-box,
+  .message-box {
+    flex: 1;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff; /* Optional: for better visibility */
+  }
+  .event-box iframe,
+  .message-box iframe {
+    width: 100%;
+    height: 300px;
+    border: 0;
+    border-radius: 5px;
+  }
+  .message-list {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .message-list li {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+  }
+  .title-description {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 10px;
+  }
+  .description {
+    font-size: smaller;
+  }
+  .section-header {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1); /* Translucent line */
+  }
+</style>
+
+<!-- HEADER -->
+{% include 'club_compass_app/user_header.html' %}
+
+<div class="container-fluid pb-2 bg-light">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="title-description">
+        <h1>{{ name }}</h1>
+        <p class="description">{{ description }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- MESSAGES -->
+      {% if messages %}
+      <div class="message-box">
+        <h4 class="section-header">Messages</h4>
+        <ul class="message-list">
+          {% for message in messages %}
+          <li>
+            <span>{{ message.time_sent }}</span>
+            <span>{{ message.text }}</span>
+            {% if message.has_link %}
+            <a href="{{ message.when2meet_link }}" target="_blank"
+              >Click Here!</a
+            >
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      <!-- EVENTS -->
+      <div class="event-box">
+        <h4 class="section-header">Events</h4>
+        {% if events %} {% for event in events %}
+        <div style="margin-bottom: 20px;">
+          <h5>Event: {{ event.name }}</h5>
+          <h6 style="font-weight: normal">Date: {{ event.date }} </h6>
+          <h6 style="font-weight: normal">Time: {{ event.start_time }} to {{ event.end_time }} </h6>
+          <h6 style="font-weight: normal">
+            Information: {{ event.description }}
+          </h6>
+          <h6 style="font-weight: normal">Location: {{ event.location }} {{ event.room_number }}</h6>
+          <iframe
+            frameborder="0"
+            style="border: 0"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps/embed/v1/place?key={{key}}&q={{event.location}}"
+            allowfullscreen
+          >
+          </iframe>
+        </div>
+        {% endfor %} {% else %}
+        <p>No Upcoming Events</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

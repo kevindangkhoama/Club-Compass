@@ -1,0 +1,77 @@
+{% load bootstrap5 %} {% load static %} {% bootstrap_css %}
+{%bootstrap_javascript %} {% load socialaccount %}
+
+<style>
+  .club-box {
+    border: 2px solid #333;
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .club-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+    text-align: center;
+  }
+
+  .club-description {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .bg-olive-green {
+    background-color: #3d9970;
+  }
+</style>
+
+<head>
+  <title>Your Clubs</title>
+  {% include 'club_compass_app/user_header.html' %}
+</head>
+
+<body class="bg-light">
+  <div class="row p-3 d-flex flex-wrap justify-content-center">
+    {% if clubs %}
+    <h2 class="mb-3" style="text-align: center">Your Clubs</h2>
+    {% for club in clubs %}
+    <div class="col-auto" style="cursor: pointer;" onclick="window.location.href='{% url 'user_club_detail' club.slug %}'">
+      <div class="club-box">
+        <div class="club-name">{{ club.name }}</div>
+        <div class="club-description">{{ club.description }}</div>
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <div class="col-auto">
+      <div class="club-box">
+        <div class="club-name">No Clubs!</div>
+        <div class="club-description">
+          It looks like you have not joined any clubs yet, or your membership is
+          still pending. Click above to find some clubs to join!
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    <div class='container'>
+      <center>
+        <button class="btn" style="background-color: #3d9970" onclick="
+                {% if has_events %}
+                    window.location.href='{% url "download_calendar" %}'
+                {% else %}
+                    alert('No events to download!')
+                {% endif %}
+                ">Download Club Events to a Calendar!</button>
+      </center>
+    </div>
+  </div>
+</body>

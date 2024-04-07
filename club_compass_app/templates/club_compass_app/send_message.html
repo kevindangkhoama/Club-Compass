@@ -1,0 +1,43 @@
+{% load bootstrap5 %} {% load static %} {% load socialaccount %}
+{% bootstrap_css %} {% bootstrap_javascript %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Send Message</title>
+  {% include 'club_compass_app/header.html' %}
+</head>
+
+<body>
+  <div class="container p-3">
+    <h2 style="margin-bottom: 25px">Send message to your Club!</h2>
+
+    {% if error_message %}
+    <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+
+    <form action="{% url 'send_message' slug=club_slug %}" method="post">
+      {% csrf_token %}
+
+      <div class="form-group" style="margin-bottom: 15px">
+        <label>
+          <h4>
+            <small>
+              <strong>{{ form.message.label }}</strong>
+            </small>
+          </h4>
+        </label>
+        {{ form.message_text }}
+      </div>
+
+      <div class="form-group">
+        <input
+          type="submit"
+          class="btn"
+          value="Submit"
+          style="background-color: #3d9970"
+        />
+      </div>
+    </form>
+  </div>
+</body>

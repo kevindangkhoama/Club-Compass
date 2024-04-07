@@ -1,0 +1,137 @@
+{% load bootstrap5 %} {% load static %} {% load socialaccount %} {%bootstrap_css %} {% bootstrap_javascript %}
+
+<style>
+  .bg-olive-green {
+    background-color: #3d9970;
+  }
+</style>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Send When2Meet link</title>
+  {% include 'club_compass_app/header.html' %}
+  <style>
+    ul,
+    ol {
+      list-style-type: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container p-3">
+    <h2 style="margin-bottom: 25px">Send When2Meet!</h2>
+
+    {% if error_message %}
+    <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+
+    <form id="when2meet_form" action="{% url 'send_when2meet' %}" method="post">
+      {% csrf_token %}
+
+      <!-- Event Name -->
+      <div class="form-group" style="margin-bottom: 15px">
+        <label>
+          <h4>
+            <small><strong>{{ form.event_name.label }}</strong></small>
+          </h4>
+        </label>
+        {{ form.event_name.errors }} {{ form.event_name }}
+      </div>
+
+      <!-- Start Time -->
+      <div class="form-group" style="margin-bottom: 15px">
+        <label>
+          <h4>
+            <small><strong>{{ form.start_hour.label }}</strong></small>
+          </h4>
+        </label>
+        {{ form.start_time.errors }}
+        <div class="row" style="margin-left: 1px">
+          <div class="col-sm-auto px-0">
+            <span class="d-inline-flex">{{ form.start_hour }}</span>
+            <span class="d-inline-flex">:</span>
+          </div>
+          <div class="col-sm-auto px-3">{{ form.start_day_night }}</div>
+        </div>
+      </div>
+
+      <!-- End Time -->
+      <div class="form-group" style="margin-bottom: 15px">
+        <label>
+          <h4>
+            <small><strong>{{ form.end_hour.label }}</strong></small>
+          </h4>
+        </label>
+        {{ form.end_time.errors }}
+        <div class="row" style="margin-left: 1px">
+          <div class="col-sm-auto px-0">
+            <span class="d-inline-flex">{{ form.end_hour }}</span>
+            <span class="d-inline-flex">:</span>
+          </div>
+          <div class="col-sm-auto px-3">{{ form.end_day_night }}</div>
+        </div>
+      </div>
+
+      <!-- Dates -->
+      <div class="form-group" style="margin-bottom: 15px" id="dates">
+        <label>
+          <h4>
+            <small><strong>Date</strong></small>
+          </h4>
+        </label>
+        <div id="date0_group" style="padding-left: 12px;">
+          <div class="row">
+            <div class="col-sm-auto px-0">
+              <span class="d-inline-flex">
+                <input
+                  type="date"
+                  name="dates"
+                  id="date0"
+                  class="form-control"
+                  placeholder="YYYY-MM-DD"
+                  required
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn bg-olive-green"
+          id="add_date_btn"
+          style="margin-top: 15px"
+        >
+          Add Date
+        </button>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-group">
+        <input type="submit" class="btn bg-olive-green" value="Submit" />
+      </div>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+      current_max_date = 0;
+      dates_div = document.getElementById("dates");
+      add_date_btn = document.getElementById("add_date_btn");
+      add_date_btn.addEventListener("click", () => {
+        console.log("test");
+        let next_date_group = document
+          .getElementById("date" + current_max_date + "_group")
+          .cloneNode(true);
+        let next_date_input = next_date_group.querySelector(
+          "#date" + current_max_date
+        );
+        ++current_max_date;
+        next_date_group.id = "date" + current_max_date + "_group";
+        next_date_input.id = "date" + current_max_date;
+        next_date_input.value = "";
+        dates_div.insertBefore(next_date_group, add_date_btn);
+      });
+    </script>
+  </div>
+</body>

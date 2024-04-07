@@ -1,0 +1,23 @@
+{% load bootstrap5 %} {% load static %} {% bootstrap_css %} {% bootstrap_javascript %}
+
+<style>
+    .bg-olive-green {
+      background-color: #3d9970;
+    }
+    .btn-black {
+      background-color: #000000;
+      color: #ffffff;
+    }
+    .text-black {
+      color: #000000;
+    }
+</style>
+
+<div class="header d-flex justify-content-between p-3 bg-olive-green">
+  <a href="{% url 'home' %}"  class="text-black">
+    <h2>Club Compass</h2>
+  </a>    
+  <a href="{% url 'home' %}" class="btn btn-black">Home</a>
+  <a href="{% url 'discover' %}" class="btn btn-black">View Clubs</a>
+  <a href="{% url 'logout' %}" onclick="logout_view" class="btn btn-black">Logout</a>
+</div>

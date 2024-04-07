@@ -1,0 +1,25 @@
+{% load bootstrap5 %} {% load static %} {% load socialaccount %}
+{% bootstrap_css %} {% bootstrap_javascript %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Send Message</title>
+  {% include 'club_compass_app/header.html' %}
+</head>
+
+<body>
+    <div class="container p-3">
+        <h2 style="margin-bottom: 25px">Oops!</h2>
+        {% if club_member %}
+            <p>Looks like you tried to login as a club with an account that is already a member...</p>
+        {% else %}
+            <p>Looks like you tried to login as a member with an account that is already a club...</p>
+        {% endif %}
+        <p> Was this intentional? If so, press continue to login with this account, otherwise press the logout button to select a new account.</p>
+        <a href="{% url 'logout' %}" onclick="logout_view" class="btn btn-black">Logout</a>
+
+        <!-- Redirecting to login will auto redirect to the correct page -->        
+        <a href="{% url 'login' %}" onclick="login_view" class="btn btn-black">Continue</a>
+    </div>
+</body>

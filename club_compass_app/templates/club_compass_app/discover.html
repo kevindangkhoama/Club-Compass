@@ -1,0 +1,67 @@
+{% load bootstrap5 %} {% load static %} {% bootstrap_css %} {% bootstrap_javascript %}
+
+
+<style>
+    .club-box {
+      border: 2px solid #333;
+      width: 200px;
+      height: 200px;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  
+    .club-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 5px;
+      text-align: center;
+    }
+  
+    .club-description {
+      font-size: 12px;
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  
+    .bg-olive-green {
+      background-color: #3d9970;
+    }
+  </style>
+<head>
+    <title>Discover Clubs</title>
+    {% include 'club_compass_app/user_header.html' %}
+  </head>
+
+
+
+<div style="height:100vh">
+    {% if clubs %}
+    <h2 class="mb-3" style="text-align: center">Available Clubs</h2>
+    {% for club in clubs %}
+    <div class="col-auto">
+      <div class="club-box">
+        <div class="club-name">{{ club.name }}</div>
+        <div class="club-description">{{ club.description }}</div>
+        <a class="btn bg-olive-green" onclick="window.location.href='{% url 'join_club' club.slug %}'">JOIN</a>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="col-auto">
+      <div class="club-box">
+        <div class="club-name">No Clubs!</div>
+        <div class="club-description">
+          It looks like there are currently no clubs to join...
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+</div>

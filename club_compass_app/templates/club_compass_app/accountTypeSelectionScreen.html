@@ -1,0 +1,84 @@
+{% load bootstrap5 %} {% load static %} {% bootstrap_css %}
+{%bootstrap_javascript %} {% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Club Compass</title>
+    <style>
+      body {
+        text-align: center;
+        padding-top: 30px;
+        background-color: #3d9970;
+      }
+
+      body > * {
+        margin: 20px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .btn-primary {
+        background-color: black;
+        color: #3d9970;
+      }
+
+      .btn-secondary {
+        background-color: orange;
+        color: black;
+      }
+
+      .typewriter-title h1 {
+        display: inline-block; /* Make the h1 element only as wide as the content */
+        overflow: hidden; /* Ensures the content doesn't spill outside the container */
+        border-right: 0.15em solid orange; /* The typewriter cursor */
+        white-space: nowrap; /* Keeps the text on a single line */
+        margin: 0 auto; /* Center the h1 element */
+        letter-spacing: 0.15em; /* Adjust letter spacing for aesthetics */
+        animation: typing 3.5s steps(40, end),
+          blink-caret 0.75s step-end infinite;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: orange;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="typewriter-title">
+      <h1>Welcome to Club Compass!</h1>
+    </div>
+    <h2>Who Are You?</h2>
+    <a
+      href="{% provider_login_url 'google' %}?next={% url 'club_login' %}"
+      class="btn btn-primary"
+      >Club Administrator</a
+    >
+    <a href="{% provider_login_url 'google' %}?next=" class="btn btn-secondary"
+      >Current/Potential Club Member</a
+    >
+  </body>
+</html>

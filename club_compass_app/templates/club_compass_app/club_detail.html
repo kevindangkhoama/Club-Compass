@@ -1,0 +1,109 @@
+{% load bootstrap5 %} {% load static %} {% bootstrap_css %}
+{%bootstrap_javascript %}
+
+<style>
+  .member-box {
+    border: 2px solid #333;
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .member-box p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+  .row ul {
+    padding-left: 24;
+    margin: 0;
+  }
+  .scrollable-box {
+    margin-left: 12px;
+    width: 500px;
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 15px;
+  }
+  .olive-green {
+    background-color: #3d9970;
+  }
+</style>
+<!-- HEADER -->
+<head>
+  <title>Create Club</title>
+  {% include 'club_compass_app/header.html' %}
+</head>
+<!-- PENDING MEMBERS -->
+<div class="row p-3 d-flex flex-wrap">
+  <h4>Pending Members:</h4>
+  {% if pending_members %} {% for member in pending_members %}
+
+  <div class="col-auto">
+    <div class="member-box">
+      <p>{{ member }}</p>
+      <button
+        class="btn btn-outline-success"
+        style="margin-bottom: 10px"
+        onclick="window.location.href='{% url 'approve_member' slug=club.slug user_pk=member.id %}'"
+      >
+        Approve
+      </button>
+      <button
+        class="btn btn-outline-danger"
+        onclick="window.location.href='{% url 'reject_member' slug=club.slug user_pk=member.id %}'"
+      >
+        Reject
+      </button>
+    </div>
+  </div>
+  {% endfor %} {% else %}
+  <p>No Pending Members</p>
+  {% endif %}
+</div>
+<!-- CURRENT MEMBERS -->
+<div class="row p-3 d-flex flex-wrap">
+  <h4>Current Members:</h4>
+  <div class="scrollable-box">
+    {% if memberships %}
+    <ul>
+      {% for member in memberships %}
+      <li>{{ member }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No current members</p>
+    {% endif %}
+  </div>
+</div>
+<!-- REJECTED MEMBERS -->
+<div class="row p-3 d-flex flex-wrap">
+  <h4>Rejected Users:</h4>
+  <div class="scrollable-box">
+    {% if rejected_members %}
+    <ul>
+      {% for member in rejected_members %}
+      <li>{{ member }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No rejected users</p>
+    {% endif %}
+  </div>
+</div>
+<!-- ADD NEW EVENT -->
+<div style="padding-left: 12px; padding-bottom: 10px">
+  <h4>Add New Events</h4>
+  <button class="btn" style="background-color: #3d9970" onclick="window.location.href='{% url "add_event" %}'">Add Event</button>
+</div>
+<!-- MESSAGE MEMBERS -->
+<div style="padding-left: 12px">
+  <h4>Send Message to All Members</h4>
+  <button class="btn" style="background-color: #3d9970" onclick="window.location.href='{% url "send_message" slug=club_slug %}'">Draft Message</button>
+</div>
