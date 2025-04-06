@@ -1,5 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/xHnRfY9D)
-
 # [Club Compass](https://club-compass-ffb1c8fdacce.herokuapp.com/)
 An application to provide UVA students one go-to place to interact with their clubs. Some students have difficulty keeping track of their clubs, because of the use of different communication apps or other organization issues. Club Compass aims to provide our users with the ability to view club meeting times, locations, descriptions, and any other information club leaders wish to share.
 
