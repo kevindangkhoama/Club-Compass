@@ -19,5 +19,15 @@ services:
         value: False
       - key: ALLOWED_HOSTS
         value: club-compass.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: club-compass-db
+          property: connectionString
     healthCheckPath: /home
-    autoDeploy: true 
+    autoDeploy: true
+
+databases:
+  - name: club-compass-db
+    databaseName: club_compass
+    user: club_compass
+    plan: free 

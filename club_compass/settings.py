@@ -22,12 +22,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
 
-if "HEROKU" in os.environ and os.environ["HEROKU"] == "TRUE":
-    import django_heroku
-    import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -38,12 +34,10 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-default-key-for-tes
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ["*"]
-
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 # Application definition
-
-SITE_ID = int(os.getenv("SITE_ID", "1")) 
+SITE_ID = int(os.getenv("SITE_ID", "1"))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -120,9 +114,6 @@ else:
         }
     }
 
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -160,19 +151,11 @@ BASE_COUNTRY = 'US'
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# STORAGES = {
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#     },
-# }
-
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-if "HEROKU" in os.environ and os.environ["HEROKU"] == "TRUE":
-    django_heroku.settings(locals())
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'club_compass_app', 'static')]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -187,39 +170,17 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/'
 
+# Security settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-
-if "HEROKU" in os.environ:
-    SECURE_SSL_REDIRECT = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_HSTS_SECONDS = 31536000  # 1 year; use a lower value for testing
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_BROWSER_XSS_FILTER = True
-    X_FRAME_OPTIONS = 'DENY'
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_HSTS_SECONDS = 31536000  # 1 year; use a lower value for testing
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
 
 # Skips intermediate login page
 SOCIALACCOUNT_LOGIN_ON_GET = True
-
-
-# Steps to find site ID:
-#   1) Uncomment code below
-#   2) Copy code below
-#   3) Go to a terminal in the directory of the project
-#   4) Type in `python manage.py shell`
-#   5) Paste in the code below and hit enter
-#   6) Copy the id
-#   7) Paste into the .env file
-#
-#
-# from django.contrib.sites.models import Site
-# target_site = None
-# all_sites = Site.objects.all()
-# for site in all_sites:
-#     if site.domain != "example.com":
-#         target_site = site
-#         break
-#
-# print(f"site: {target_site}, id: {target_site.id}")
