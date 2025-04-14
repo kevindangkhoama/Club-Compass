@@ -33,21 +33,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-default-key-for-testing")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
-if "HEROKU" in os.environ and os.environ["DEBUG"] == "FALSE":
-    DEBUG = False
-else:
-    DEBUG = True
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
-SITE_ID = int(os.getenv("SITE_ID", "8")) 
+SITE_ID = int(os.getenv("SITE_ID", "1")) 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -108,9 +104,13 @@ WSGI_APPLICATION = 'club_compass.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if "HEROKU" in os.environ and os.environ["HEROKU"] == "TRUE":
+if os.getenv('DATABASE_URL'):
+    import dj_database_url
     DATABASES = {
-        'default': dj_database_url.config()
+        'default': dj_database_url.config(
+            default=os.getenv('DATABASE_URL'),
+            conn_max_age=600
+        )
     }
 else:
     DATABASES = {
