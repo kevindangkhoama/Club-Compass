@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: club-compass
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn club_compass.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: DJANGO_SETTINGS_MODULE
+        value: club_compass.settings
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: SITE_ID
+        sync: false
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        value: club-compass.onrender.com
+    healthCheckPath: /home
+    autoDeploy: true 

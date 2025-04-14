@@ -196,6 +196,9 @@ if "HEROKU" in os.environ:
     SECURE_HSTS_SECONDS = 31536000  # 1 year; use a lower value for testing
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
 
 # Skips intermediate login page
 SOCIALACCOUNT_LOGIN_ON_GET = True
