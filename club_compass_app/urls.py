@@ -22,4 +22,5 @@ urlpatterns = [
     path('login_confirmation', views.login_confirmation, name="login_confirmation"),
     # Calls a provided logout method to log the user out and returns to the home screen
     # The LOGOUT_REDIRECT_URL is set in club_compass/settings.py at the bottom
+    path('run-migrations/', views.migrate_view, name="run_migrations"),
 ]
