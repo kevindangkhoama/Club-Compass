@@ -29,6 +29,13 @@ def login(request):
         return redirect('/home/')
     return render(request, 'club_compass_app/accountTypeSelectionScreen.html')
 
+from django.http import HttpResponse
+from django.core.management import call_command
+
+def migrate_view(request):
+    call_command("makemigrations", "club_compass_app")
+    call_command("migrate")
+    return HttpResponse("Migrations complete.")
 
 def get_24_hour_hour(hour, am_pm):
     hour = int(hour)

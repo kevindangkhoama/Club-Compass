@@ -20,6 +20,13 @@ def init_site(request):
 
     return HttpResponse(f"<pre>{output.getvalue()}</pre>")
 
+from club_compass_app.views import migrate_view
+
+urlpatterns = [
+    # other paths...
+    path("run-migrations/", migrate_view),
+]
+
 def create_admin(request):
     if not User.objects.filter(username="admin").exists():
         User.objects.create_superuser("admin", "admin@example.com", "yourpassword123")
