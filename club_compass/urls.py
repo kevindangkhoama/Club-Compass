@@ -1,24 +1,30 @@
-"""
-URL configuration for club_compass project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
+from django.core.management import call_command
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
+# === TEMPORARY VIEWS FOR SETUP ===
+def init_site(request):
+    try:
+        call_command("migrate", verbosity=2)
+        call_command("collectstatic", "--noinput", verbosity=2)
+        return HttpResponse("✅ Migrations and static collection done.")
+    except Exception as e:
+        return HttpResponse(f"❌ Error: {str(e)}")
+
+def create_admin(request):
+    if not User.objects.filter(username="admin").exists():
+        User.objects.create_superuser("admin", "admin@example.com", "yourpassword123")
+        return HttpResponse("✅ Superuser created. Username: admin")
+    return HttpResponse("ℹ️ Admin already exists.")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path('', include("club_compass_app.urls")),
+
+    # TEMPORARY ROUTES
+    path('init/', init_site),
+    path('create-admin/', create_admin),
 ]
