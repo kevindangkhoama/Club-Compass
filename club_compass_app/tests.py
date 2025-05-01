@@ -9,7 +9,7 @@ from .when2meet_api import get_when2meet_link
 from django.contrib.auth.models import User
 from .models import Club, Membership, Event, Message
 from .forms import ClubForm, EventForm, MessageForm, TimeForm, When2MeetForm
-from datetime import date
+from datetime import date, timedelta
 import requests
 from django.urls import reverse
 from django.conf import settings # Import the settings file to get the Google Maps API key
@@ -143,10 +143,11 @@ class FormsTestCase(TestCase):
         
     # Test cases for Event Forms
     def test_event_form_is_valid(self):
+        future_date = (date.today() + timedelta(days=7)).isoformat()
         form_data = {
             'event_name': 'test event',
             'description': 'description.',
-            'date': '2023-12-31', 
+            'date': future_date,
             'location': 'test location',
             'start_hour': '01',  
             'start_day_night': 'AM',  
@@ -157,6 +158,7 @@ class FormsTestCase(TestCase):
             'room_number': '101',
         }
         form = EventForm(data=form_data)
+        # print(form.errors)
         self.assertTrue(form.is_valid())
 
     def test_event_form_is_not_valid(self):
