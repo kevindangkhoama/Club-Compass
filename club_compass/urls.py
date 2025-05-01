@@ -6,12 +6,19 @@ from django.contrib.auth.models import User
 
 # === TEMPORARY VIEWS FOR SETUP ===
 def init_site(request):
+    from io import StringIO
+    from django.core.management import call_command
+
+    output = StringIO()
     try:
-        call_command("migrate", verbosity=2)
-        call_command("collectstatic", "--noinput", verbosity=2)
-        return HttpResponse("✅ Migrations and static collection done.")
+        call_command("showmigrations", stdout=output)
+        call_command("migrate", verbosity=2, stdout=output)
+        call_command("collectstatic", "--noinput", verbosity=2, stdout=output)
+        output.write("\n✅ Done!")
     except Exception as e:
-        return HttpResponse(f"❌ Error: {str(e)}")
+        output.write(f"\n❌ ERROR: {str(e)}")
+
+    return HttpResponse(f"<pre>{output.getvalue()}</pre>")
 
 def create_admin(request):
     if not User.objects.filter(username="admin").exists():
