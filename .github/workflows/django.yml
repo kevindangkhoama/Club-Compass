@@ -41,8 +41,7 @@ jobs:
       run: |
         python manage.py test
     env:
-      DJANGO_SETTINGS_MODULE: club_compass.settings
-      DATABASE_URL: postgres://postgres:postgres@localhost/github_actions
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
       SITE_ID: ${{ secrets.SITE_ID }}
-      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}

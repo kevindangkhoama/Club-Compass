@@ -71,7 +71,7 @@ WSGI_APPLICATION = 'club_compass.wsgi.application'
 # Database
 DATABASES = {
     'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR}/db.sqlite3',
+        default=os.getenv('DATABASE_URL', 'postgres://postgres:postgres@localhost:5432/github_actions'),
         conn_max_age=600,
         ssl_require=False
     )
